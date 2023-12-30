@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="350dp"
+    android:layout_height="380dp"
+    android:background="@color/design_default_color_secondary"
+    android:paddingLeft="21dp"
+    android:paddingRight="21dp"
+    android:paddingBottom="11dp"
+    android:orientation="vertical"
+    android:scrollbarAlwaysDrawVerticalTrack="true">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:textSize="32sp"
+        android:textStyle="bold"
+        android:textColor="@color/white"
+        android:id="@+id/txtTitle"
+        android:layout_margin="21dp"
+        android:text="Add Details" />
+
+    <ScrollView
+        android:layout_width="350dp"
+        android:layout_height="220dp"
+        xmlns:android="http://schemas.android.com/apk/res/android">
+
+        <LinearLayout
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:layout_width="300dp"
+            android:layout_height="fill_parent"
+            android:background="@color/design_default_color_secondary"
+            android:paddingLeft="6dp"
+            android:paddingRight="21dp"
+            android:paddingBottom="11dp"
+            android:orientation="vertical"
+            android:scrollbarAlwaysDrawVerticalTrack="true">
+
+
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/edtName"
+                android:hint="Enter name"
+                android:background="@color/white"
+                android:padding="11dp"
+                android:layout_marginBottom="11dp"
+                android:inputType="text"/>
+
+            <AutoCompleteTextView
+                android:id="@+id/locAtv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:completionThreshold="1"
+                android:hint="Select your address"
+                android:backgroundTint="@color/white"
+                android:background="@color/white"
+                android:padding="11dp"
+                android:layout_marginBottom="11dp"
+
+                />
+
+            <AutoCompleteTextView
+                android:id="@+id/catAtv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:completionThreshold="1"
+                android:hint="Select your category"
+                android:backgroundTint="@color/white"
+                android:background="@color/white"
+                android:padding="11dp"
+                android:layout_marginBottom="11dp"
+
+                />
+
+
+<!--            <Spinner-->
+<!--                android:id="@+id/address_a"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="40dp"-->
+<!--                android:background="@color/white"-->
+<!--                android:layout_marginBottom="11dp"-->
+<!--                android:padding="11dp"-->
+<!--                />-->
+
+<!--            <Spinner-->
+<!--                android:id="@+id/category_a"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="40dp"-->
+<!--                android:background="@color/white"-->
+<!--                android:layout_marginBottom="11dp"-->
+<!--                android:padding="11dp"-->
+<!--                />-->
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/edtDes"
+                android:hint="Enter description"
+                android:background="@color/white"
+                android:padding="11dp"
+                android:layout_marginBottom="11dp"
+                android:inputType="text"/>
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/edtQuan"
+                android:hint="Quantity"
+                android:background="@color/white"
+                android:padding="11dp"
+                android:layout_marginBottom="11dp"
+                android:inputType="text"/>
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/edtPhone"
+                android:hint="Enter contact"
+                android:background="@color/white"
+                android:padding="11dp"
+                android:layout_marginBottom="11dp"
+                android:inputType="phone"/>
+
+
+        </LinearLayout>
+    </ScrollView>
+    <Button
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="Add Announcement"
+    android:id="@+id/btnAction"
+    android:backgroundTint="@color/white"
+    android:layout_marginTop="15dp"
+    android:layout_gravity="right"
+    android:layout_marginRight="30dp"
+    android:textColor="@color/design_default_color_secondary"
+    />
+</LinearLayout>

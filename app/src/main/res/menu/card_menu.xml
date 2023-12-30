@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    >
+
+    <item android:id="@+id/Call"
+        android:title="Call"
+        app:showAsAction="never"/>
+    <item android:id="@+id/Message"
+        android:title="Message"
+        app:showAsAction="never"/>
+    <item android:id="@+id/AddTo"
+        android:title="Add to "
+        app:showAsAction="never">
+        <menu>
+
+            <item android:id="@+id/addToCon"
+                android:title="Contacts"
+                app:showAsAction="never"/>
+            <item android:id="@+id/addToFav"
+                android:title="Favourite"
+                app:showAsAction="never"/>
+
+        </menu>
+    </item>
+
+    <item android:id="@+id/Rating"
+        android:title="Give rating"
+        app:showAsAction="never">
+        <menu>
+
+            <item android:id="@+id/StarRating"
+                android:title="Star rating"/>
+            <item android:id="@+id/Review"
+                android:title="Review"/>
+
+        </menu>
+    </item>
+
+
+</menu>

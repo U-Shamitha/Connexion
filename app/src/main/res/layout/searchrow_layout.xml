@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="60dp"
+    android:orientation="horizontal"
+    android:weightSum="1">
+
+    <AutoCompleteTextView
+        android:id="@+id/locAtv"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:completionThreshold="1"
+        android:hint="Select address"
+        android:textSize="18sp"
+        android:fontFamily="@string/appFontFamily"
+        android:backgroundTint="@color/white"
+        android:background="@color/white"
+        android:padding="15dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginBottom="11dp"
+        android:layout_weight="0.425"
+
+        />
+
+    <AutoCompleteTextView
+        android:id="@+id/catAtv"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:completionThreshold="1"
+        android:hint="Select category"
+        android:textSize="18sp"
+        android:fontFamily="@string/appFontFamily"
+        android:backgroundTint="@color/white"
+        android:background="@color/white"
+        android:padding="15dp"
+        android:layout_marginBottom="11dp"
+        android:layout_weight="0.425"
+
+        />
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="10dp"
+        android:layout_weight="0.15"
+        android:gravity="center_vertical|left">
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:elevation="5dp"
+            android:translationZ="5dp"
+            app:cardCornerRadius="100dp">
+
+            <ImageButton
+                android:id="@+id/imbtn"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:background="@color/white"
+                android:src="@drawable/search" />
+            <!--            android:layout_marginRight="10dp"-->
+            <!--            android:layout_marginLeft="10dp"/>-->
+        </androidx.cardview.widget.CardView>
+    </LinearLayout>
+</LinearLayout>

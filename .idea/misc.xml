@@ -1,0 +1,66 @@
+<project version="4">
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="..\:/11-09 srp/srp_demo/app/src/main/res/drawable/ic_baseline_more_vert_24.xml" value="0.1515" />
+        <entry key="..\:/11-09 srp/srp_demo/app/src/main/res/layout/add_ann.xml" value="0.25" />
+        <entry key="..\:/11-09 srp/srp_demo/app/src/main/res/layout/add_annw.xml" value="0.25" />
+        <entry key="..\:/11-09 srp/srp_demo/app/src/main/res/layout/contact_row.xml" value="0.25" />
+        <entry key="..\:/11-09 srp/srp_demo/app/src/main/res/layout/contact_roww.xml" value="0.25" />
+        <entry key="..\:/11-09 srp/srp_demo/app/src/main/res/layout/fragment_search.xml" value="0.25" />
+        <entry key="..\:/11-09 srp/srp_demo/app/src/main/res/layout/rating.xml" value="0.25" />
+        <entry key="..\:/11-09 srp/srp_demo/app/src/main/res/menu/card_menu.xml" value="0.25" />
+        <entry key="..\:/Users/Dell/AndroidStudioProjects/srp_demo/app/src/main/res/drawable/back_main_bottom.xml" value="0.157" />
+        <entry key="..\:/Users/Dell/AndroidStudioProjects/srp_demo/app/src/main/res/drawable/back_main_head.xml" value="0.157" />
+        <entry key="..\:/Users/Dell/AndroidStudioProjects/srp_demo/app/src/main/res/drawable/back_main_head2.xml" value="0.157" />
+        <entry key="..\:/Users/Dell/AndroidStudioProjects/srp_demo/app/src/main/res/drawable/circle_black.xml" value="0.15" />
+        <entry key="..\:/Users/Dell/AndroidStudioProjects/srp_demo/app/src/main/res/drawable/circle_green.xml" value="0.163" />
+        <entry key="..\:/Users/Dell/AndroidStudioProjects/srp_demo/app/src/main/res/drawable/circle_white.xml" value="0.157" />
+        <entry key="..\:/Users/Dell/AndroidStudioProjects/srp_demo/app/src/main/res/drawable/ic_add_person.xml" value="0.15" />
+        <entry key="..\:/Users/Dell/AndroidStudioProjects/srp_demo/app/src/main/res/drawable/ic_announcement.xml" value="0.15" />
+        <entry key="..\:/Users/Dell/AndroidStudioProjects/srp_demo/app/src/main/res/drawable/ic_baseline_delete_24.xml" value="0.131" />
+        <entry key="..\:/Users/Dell/AndroidStudioProjects/srp_demo/app/src/main/res/drawable/ic_butn_back.xml" value="0.1555" />
+        <entry key="..\:/Users/Dell/AndroidStudioProjects/srp_demo/app/src/main/res/drawable/ic_card_back.xml" value="0.1555" />
+        <entry key="..\:/Users/Dell/AndroidStudioProjects/srp_demo/app/src/main/res/drawable/ic_card_back2.xml" value="0.1555" />
+        <entry key="..\:/Users/Dell/AndroidStudioProjects/srp_demo/app/src/main/res/drawable/ic_icons8_home.xml" value="0.15" />
+        <entry key="..\:/Users/Dell/AndroidStudioProjects/srp_demo/app/src/main/res/drawable/ic_icons8_search.xml" value="0.15" />
+        <entry key="..\:/Users/Dell/AndroidStudioProjects/srp_demo/app/src/main/res/drawable/ic_sign_out.xml" value="0.147" />
+        <entry key="..\:/Users/Dell/AndroidStudioProjects/srp_demo/app/src/main/res/drawable/ic_wave.xml" value="0.157" />
+        <entry key="..\:/Users/Dell/AndroidStudioProjects/srp_demo/app/src/main/res/drawable/ic_wave3.xml" value="0.157" />
+        <entry key="..\:/Users/Dell/AndroidStudioProjects/srp_demo/app/src/main/res/drawable/icon.xml" value="0.15" />
+        <entry key="..\:/Users/Dell/AndroidStudioProjects/srp_demo/app/src/main/res/drawable/top_home.xml" value="0.1555" />
+        <entry key="..\:/Users/Dell/AndroidStudioProjects/srp_demo/app/src/main/res/drawable/white_back.xml" value="0.142" />
+        <entry key="..\:/Users/Dell/AndroidStudioProjects/srp_demo/app/src/main/res/layout/activity_announcement.xml" value="0.21784420289855072" />
+        <entry key="..\:/Users/Dell/AndroidStudioProjects/srp_demo/app/src/main/res/layout/activity_fcm_notifications_sender.xml" value="0.23854166666666668" />
+        <entry key="..\:/Users/Dell/AndroidStudioProjects/srp_demo/app/src/main/res/layout/activity_login.xml" value="0.22708333333333333" />
+        <entry key="..\:/Users/Dell/AndroidStudioProjects/srp_demo/app/src/main/res/layout/activity_main.xml" value="0.2" />
+        <entry key="..\:/Users/Dell/AndroidStudioProjects/srp_demo/app/src/main/res/layout/activity_manageotp.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/Dell/AndroidStudioProjects/srp_demo/app/src/main/res/layout/activity_my_firebase_messaging_service.xml" value="0.23854166666666668" />
+        <entry key="..\:/Users/Dell/AndroidStudioProjects/srp_demo/app/src/main/res/layout/activity_search.xml" value="0.21784420289855072" />
+        <entry key="..\:/Users/Dell/AndroidStudioProjects/srp_demo/app/src/main/res/layout/activity_search_duplicate.xml" value="0.213768115942029" />
+        <entry key="..\:/Users/Dell/AndroidStudioProjects/srp_demo/app/src/main/res/layout/activity_user_registeration.xml" value="0.22708333333333333" />
+        <entry key="..\:/Users/Dell/AndroidStudioProjects/srp_demo/app/src/main/res/layout/activity_worker.xml" value="0.2128623188405797" />
+        <entry key="..\:/Users/Dell/AndroidStudioProjects/srp_demo/app/src/main/res/layout/add_ann.xml" value="0.21784420289855072" />
+        <entry key="..\:/Users/Dell/AndroidStudioProjects/srp_demo/app/src/main/res/layout/add_annw.xml" value="0.25" />
+        <entry key="..\:/Users/Dell/AndroidStudioProjects/srp_demo/app/src/main/res/layout/add_update_lay.xml" value="0.2128623188405797" />
+        <entry key="..\:/Users/Dell/AndroidStudioProjects/srp_demo/app/src/main/res/layout/add_updatew_lay.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/Dell/AndroidStudioProjects/srp_demo/app/src/main/res/layout/contact_row.xml" value="0.2128623188405797" />
+        <entry key="..\:/Users/Dell/AndroidStudioProjects/srp_demo/app/src/main/res/layout/contact_roww.xml" value="0.2128623188405797" />
+        <entry key="..\:/Users/Dell/AndroidStudioProjects/srp_demo/app/src/main/res/layout/dialog.xml" value="0.2128623188405797" />
+        <entry key="..\:/Users/Dell/AndroidStudioProjects/srp_demo/app/src/main/res/layout/fragment_announce.xml" value="0.21784420289855072" />
+        <entry key="..\:/Users/Dell/AndroidStudioProjects/srp_demo/app/src/main/res/layout/fragment_home.xml" value="0.2" />
+        <entry key="..\:/Users/Dell/AndroidStudioProjects/srp_demo/app/src/main/res/layout/fragment_register.xml" value="0.21784420289855072" />
+        <entry key="..\:/Users/Dell/AndroidStudioProjects/srp_demo/app/src/main/res/layout/fragment_search.xml" value="0.21784420289855072" />
+        <entry key="..\:/Users/Dell/AndroidStudioProjects/srp_demo/app/src/main/res/layout/fragment_search_worker.xml" value="0.25" />
+        <entry key="..\:/Users/Dell/AndroidStudioProjects/srp_demo/app/src/main/res/layout/input_background.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/Dell/AndroidStudioProjects/srp_demo/app/src/main/res/layout/white_back.xml" value="0.23854166666666668" />
+      </map>
+    </option>
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_17" project-jdk-name="jbr-17" project-jdk-type="JavaSDK">
+    <output url="file://$PROJECT_DIR$/build/classes" />
+  </component>
+  <component name="ProjectType">
+    <option name="id" value="Android" />
+  </component>
+</project>

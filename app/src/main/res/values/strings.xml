@@ -1,0 +1,34 @@
+<resources>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string name="appFontFamily">@font/buenard</string>
+    <string name="app_name">Connexion</string>
+
+
+
+    <string-array name="category">
+        <item>construction worker</item>
+        <item>textile worker</item>
+        <item>tailor</item>
+        <item>plumber</item>
+        <item>electrician</item>
+
+    </string-array>
+
+    <string-array name="location">
+        <item>nellore</item>
+        <item>ananthapur</item>
+        <item>chithoor</item>
+        <item>kadapa</item>
+        <item>kurnool</item>
+    </string-array>
+
+    <string-array name="menu">
+        <item>Call</item>
+        <item>Message</item>
+        <item>Rate</item>
+        <item>Review</item>
+    </string-array>
+
+</resources>
