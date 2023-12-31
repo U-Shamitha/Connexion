@@ -260,7 +260,7 @@ public class announce extends Fragment implements  AdapterView.OnItemSelectedLis
                     }
                     if(count==0){
                         noAnnouncementImg.setVisibility(View.VISIBLE);
-                        Toast.makeText(getContext(), "No announcements found", Toast.LENGTH_SHORT).show();
+                        if (getContext()!=null) Toast.makeText(getContext(), "No announcements found", Toast.LENGTH_SHORT).show();
                     }
                 }
             }

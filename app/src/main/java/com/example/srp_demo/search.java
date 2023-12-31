@@ -165,18 +165,27 @@ public class search extends Fragment implements  AdapterView.OnItemSelectedListe
                                         for (DataSnapshot user : dataSnapshot.getChildren()) {
 
                                             ContactModel contact = user.getValue(ContactModel.class);
+                                            contact.rating = Float.parseFloat(dataSnapshot.child(contact.key).child("rating").getValue().toString());
+                                            contact.noOfRatings = Integer.parseInt(dataSnapshot.child(contact.key).child("noOfRatings").getValue().toString());
+//                                            Toast.makeText(getContext(), "before nr"+contact.noOfRatings, Toast.LENGTH_SHORT).show();
+//                                            Toast.makeText(getContext(), "before r"+contact.rating, Toast.LENGTH_SHORT).show();
 
                                             if (contact.category.equals(category_spn) && contact.address.equals(address_spn)) {
                                                 //Toast.makeText(getContext(),contact.name,Toast.LENGTH_LONG).show();
 
                                                 arrContacts_search2.add(new ContactModel(bitmap_default, contact.name, contact.address, contact.category, contact.description, contact.quantity, contact.phone, contact.key, 0, 1, contact.timeStamp,contact.rating,contact.noOfRatings));
-//                                                Toast.makeText(getContext(),"noOfRatings"+contact.noOfRatings, Toast.LENGTH_SHORT).show();
+                                                Toast.makeText(getContext(),"noOfRatings"+contact.noOfRatings, Toast.LENGTH_SHORT).show();
+                                                //Collections.reverse(arrContacts_search2);
                                                 adapter_s2 = new RecyclerContactAdapter(view4.getContext(), arrContacts_search2, getActivity());
                                                 recyclerView_s2.setAdapter(adapter_s2);
                                                 if (progressDialog.isShowing()) {
                                                     progressDialog.dismiss();
                                                 }
                                                 setpic(arrContacts_search2.size() - 1);
+//                                                if (arrContacts_search2.size() > 1) {
+//                                                    adapter_s2.notifyItemInserted(arrContacts_search2.size() - 1);
+//                                                    recyclerView_s2.scrollToPosition(arrContacts_search2.size() - 1);
+//                                                }
 
                                                 flag = "yes";
 
@@ -210,6 +219,7 @@ public class search extends Fragment implements  AdapterView.OnItemSelectedListe
 
                         }
                     });
+
                 }
                 else{
                     Toast.makeText(getContext(),"Please select address and category", Toast.LENGTH_SHORT).show();
@@ -244,9 +254,10 @@ public class search extends Fragment implements  AdapterView.OnItemSelectedListe
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         count=0;
                         if (dataSnapshot.exists()) {
+                            Toast.makeText(getContext(), ""+dataSnapshot.getChildren(), Toast.LENGTH_SHORT).show();
                             for (DataSnapshot user : dataSnapshot.getChildren()) {
                                 String favphno = user.getValue().toString();
-                               // Toast.makeText(getContext(), ""+user.getValue(), Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getContext(), ""+user.getValue(), Toast.LENGTH_SHORT).show();
                                 FirebaseDatabase firebaseDatabase2 = FirebaseDatabase.getInstance();
                                 DatabaseReference databaseReferenceFavInfo= firebaseDatabase2.getReference("ContactModel");
                                 Query queryFavInfo = databaseReferenceFavInfo.orderByChild("timeStamp");
@@ -257,13 +268,17 @@ public class search extends Fragment implements  AdapterView.OnItemSelectedListe
                                         //Toast.makeText(getContext(), "before exists", Toast.LENGTH_SHORT).show();
 
                                         if (dataSnapshot.exists()) {
-                                            //Toast.makeText(getContext(), "exists", Toast.LENGTH_SHORT).show()
+//                                            Toast.makeText(getContext(), "exists", Toast.LENGTH_SHORT).show();
                                             for (DataSnapshot user : dataSnapshot.getChildren()) {
                                                 ContactModel contact = user.getValue(ContactModel.class);
+                                                contact.rating = Float.parseFloat(dataSnapshot.child(contact.key).child("rating").getValue().toString());
+                                                contact.noOfRatings = Integer.parseInt(dataSnapshot.child(contact.key).child("noOfRatings").getValue().toString());
+//                                                Toast.makeText(getContext(), "before nr"+contact.noOfRatings, Toast.LENGTH_SHORT).show();
+//                                                Toast.makeText(getContext(), "before r"+contact.rating, Toast.LENGTH_SHORT).show();
                                                 if(contact.phone.equals(favphno)) {
                                                     //Toast.makeText(getContext(), "" + contact, Toast.LENGTH_SHORT).show();
                                                     arrContacts_search2.add(new ContactModel(bitmap_default, contact.name, contact.address, contact.category, contact.description, contact.quantity, contact.phone, contact.key, 0, 1,2002,contact.rating,contact.noOfRatings));
-//                                                    Toast.makeText(getContext(), "noOfRatings1"+contact.noOfRatings, Toast.LENGTH_SHORT).show();
+                                                    Toast.makeText(getContext(), "r"+contact.rating, Toast.LENGTH_SHORT).show();
                                                     adapter_s2 = new RecyclerContactAdapter(view4.getContext(), arrContacts_search2, getActivity());
                                                     recyclerView_s2.setAdapter(adapter_s2);
                                                     if (progressDialog.isShowing()) {
@@ -278,13 +293,14 @@ public class search extends Fragment implements  AdapterView.OnItemSelectedListe
                                             if(count==0){
                                                 if (progressDialog.isShowing()) {
                                                     progressDialog.dismiss();
-                                                                 }
-                                                Toast.makeText(getContext(), "No worker is available from your favourites", Toast.LENGTH_SHORT).show();
+                                                }
+                                                Toast.makeText(getContext(), "No worker provider from your favourites made announcements", Toast.LENGTH_SHORT).show();
                                             }
-
-                                        }
-                                        else{
-                                            Toast.makeText(getContext(), "You have no favorite workers", Toast.LENGTH_SHORT).show();
+                                        }else {
+                                            if (progressDialog.isShowing()) {
+                                                progressDialog.dismiss();
+                                            }
+                                            Toast.makeText(getContext(), "No work provider made announcements", Toast.LENGTH_SHORT).show();
                                         }
                                     }
                                     @Override
@@ -293,8 +309,11 @@ public class search extends Fragment implements  AdapterView.OnItemSelectedListe
                                     }
                                 });
                             }
-                        } else {
-
+                        }  else{
+                            if (progressDialog.isShowing()) {
+                                progressDialog.dismiss();
+                            }
+                            Toast.makeText(getContext(), "You have no favorite worker providers", Toast.LENGTH_SHORT).show();
                         }
                     }
 

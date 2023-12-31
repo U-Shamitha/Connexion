@@ -88,19 +88,6 @@ public class user_registeration extends AppCompatActivity {
         String loginpno = pref.getString("Pnol", null);
         String loginpass = pref.getString("Pwdl", null);
 
-//        editor.clear();
-//        editor.commit();
-//
-//
-//        Toast.makeText(user_registeration.this, loginpass+" "+loginpno, Toast.LENGTH_SHORT).show();
-
-
-        FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
-        DatabaseReference databaseReference = firebaseDatabase.getReference("User_details");
-        Query query = databaseReference.orderByChild("user_pno").equalTo(loginpno);
-
-
-
 
         if(loginpno!=null && loginpass!=null ){
             Intent intent = new Intent(user_registeration.this, MainActivity.class);
@@ -127,25 +114,49 @@ public class user_registeration extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
+                reg_name.setError(null);
+                reg_pno.setError(null);
+                reg_pwd.setError(null);
                 if(reg_name.getText().toString().equals("")){
+                    reg_name.setError("Please enter name");
                     Toast.makeText(user_registeration.this,"enter name",Toast.LENGTH_LONG).show();
                 }
                 else if(reg_pno.getText().toString().equals("") || ccp.getFullNumberWithPlus().substring(3).length()!=10){
+                    reg_pno.setError("Please enter valid phone number");
                     Toast.makeText(user_registeration.this,"enter valid phone",Toast.LENGTH_LONG).show();
                 }
                 else if(reg_pwd.getText().toString().equals("")){
+                    reg_pwd.setError("Please enter password");
                     Toast.makeText(user_registeration.this,"set password",Toast.LENGTH_LONG).show();
                 }
                 else if(isImageUploaded == 0){
                     Toast.makeText(user_registeration.this,"select a profile picture",Toast.LENGTH_LONG).show();
                 }
-
                 else{
-                    nameS = reg_name.getText().toString();
-                    pwdS = reg_pwd.getText().toString();
-                    phnoS = ccp.getFullNumberWithPlus().substring(3).toString().trim();
-                    //otpsend();
-                    uploadPicture(reg_pno.getText().toString().trim());
+
+                    FirebaseDatabase database = FirebaseDatabase.getInstance();
+                    DatabaseReference databaseReference = database.getReference("User_details");
+                    databaseReference.orderByChild("user_pno").equalTo(ccp.getFullNumberWithPlus().substring(3).toString().trim()).addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            if (dataSnapshot.exists()) {
+                                reg_pno.setError("Phone number already taken");
+                                Toast.makeText(user_registeration.this, "Phone number is already taken", Toast.LENGTH_LONG).show();
+                            } else {
+                                nameS = reg_name.getText().toString();
+                                pwdS = reg_pwd.getText().toString();
+                                phnoS = ccp.getFullNumberWithPlus().substring(3).toString().trim();
+                                //otpsend();
+                                uploadPicture(reg_pno.getText().toString().trim());
+                            }
+                        }
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+                            // Handle errors
+                            Log.d("User Registration", databaseError.getMessage());
+                        }
+                    });
+
                 }
             }
         });

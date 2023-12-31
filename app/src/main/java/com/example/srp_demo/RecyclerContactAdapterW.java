@@ -13,6 +13,7 @@ import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.provider.ContactsContract;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -25,6 +26,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupMenu;
+import android.widget.RatingBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -34,6 +36,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -61,6 +64,12 @@ public class RecyclerContactAdapterW extends RecyclerView.Adapter<RecyclerContac
     Context context;
     ArrayList<ContactModelW>  arrContacts;
     Activity activity;
+
+    int existW=0;
+    int noOfRatingsfW=0;
+    Float ratingfW=Float.valueOf(0);
+    Float prevratingW=Float.valueOf(0);
+    float avgRating = 0;
     RecyclerContactAdapterW(Context context, ArrayList arrContacts ,Activity activity ){
 
         this.context=context;
@@ -80,7 +89,8 @@ public class RecyclerContactAdapterW extends RecyclerView.Adapter<RecyclerContac
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, @SuppressLint("RecyclerView") int position) {
 
-        ContactModelW model = (ContactModelW) arrContacts.get(position);
+//        ContactModelW contact = (ContactModelW) arrContacts.get(position);
+//        Log.d("RecConAdaW", contact.toString());
 
         holder.img.setImageBitmap(arrContacts.get(position).img1);
         holder.name.setText(arrContacts.get(position).name);
@@ -92,6 +102,11 @@ public class RecyclerContactAdapterW extends RecyclerView.Adapter<RecyclerContac
         //make menu option visible in search page
         if(arrContacts.get(position).menu==1){
             holder.menu.setVisibility(View.VISIBLE);
+        }
+        //show ratings
+        holder.ratingBar.setRating(arrContacts.get(position).rating);
+        if (holder.ratingBar.getRating()!=0){
+            holder.ratingBar.setVisibility(View.VISIBLE);
         }
 
         holder.llRow.setOnClickListener(new View.OnClickListener(){
@@ -116,18 +131,6 @@ public class RecyclerContactAdapterW extends RecyclerView.Adapter<RecyclerContac
                     txtTitle.setText("Update Details");
 
                     btnAction.setText("UPDATE");
-
-//                    String [] values =  {"Select Location","nellore","ananthapur","kadapa","kurnool","chithoor"};
-//                    Spinner address_a = (Spinner)dialogw.findViewById(R.id.spinner_locw);
-//                    ArrayAdapter<String> adapter_a1 = new ArrayAdapter<String>(context, android.R.layout.simple_spinner_item, values);
-//                    adapter_a1.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line);
-//                    address_a.setAdapter(adapter_a1);
-//
-//                    String [] values2 =  {"Select Category","construction worker","textile worker","tailor","plumber","electrician"};
-//                    Spinner category_a = (Spinner)dialogw.findViewById(R.id.spinner_catw);
-//                    ArrayAdapter<String> adapter_a2 = new ArrayAdapter<String>(context, android.R.layout.simple_spinner_item, values2);
-//                    adapter_a2.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line);
-//                    category_a.setAdapter(adapter_a2);
 
                     //category autocomplete text
                     AutoCompleteTextView catAtvW;
@@ -176,8 +179,6 @@ public class RecyclerContactAdapterW extends RecyclerView.Adapter<RecyclerContac
                             address = (String) locAtvW.getAdapter().getItem(i).toString();
                         }
                     });
-//                    locAtvW.setSelection(locAtvW.getPosition(arrContacts.get(position).address));
-//                    catAtvW.setSelection(catAtvW.getPosition(arrContacts.get(position).category));
                     edtDes.setText((arrContacts.get(position)).description);
                     edtQuan.setText((arrContacts.get(position)).quantity);
                     edtPhone.setText((arrContacts.get(position)).phone);
@@ -238,8 +239,6 @@ public class RecyclerContactAdapterW extends RecyclerView.Adapter<RecyclerContac
                                 map.put("timeStamp",timeStamp);
                                 map.put("noOfRatings",arrContacts.get(position).noOfRatings);
                                 map.put("rating",arrContacts.get(position).rating);
-                                //map.put("address",contact.clickable);
-                                //Toast.makeText(context.getApplicationContext(), arrContacts.get(position).key.toString(),Toast.LENGTH_LONG).show();
 
                                 FirebaseDatabase db = FirebaseDatabase.getInstance();
 
@@ -261,7 +260,7 @@ public class RecyclerContactAdapterW extends RecyclerView.Adapter<RecyclerContac
                                         if (dataSnapshot.exists()) {
 //                                            Toast.makeText(context, "dataSnapshot exists", Toast.LENGTH_SHORT).show();
                                             for (DataSnapshot user : dataSnapshot.getChildren()) {
-                                                ContactModel contact = user.getValue(ContactModel.class);
+                                                ContactModelW contact = user.getValue(ContactModelW.class);
                                                 if(ucat.equals(contact.category)){
                                                     count_category = count_category +1;
                                                 }
@@ -269,27 +268,20 @@ public class RecyclerContactAdapterW extends RecyclerView.Adapter<RecyclerContac
                                                     count_address = count_address +1;
                                                 }
                                             }
-//                                            Toast.makeText(context, "cat:"+count_category, Toast.LENGTH_SHORT).show();
-//                                            Toast.makeText(context, "adrs"+count_address, Toast.LENGTH_SHORT).show();
                                             if(count_category==0 && !arrContacts.get(position).category.equals(ucat)){
                                                 FirebaseMessaging.getInstance().unsubscribeFromTopic(ucat+"p");
-//                                                Toast.makeText(context, "unsubscribed "+ucat+"p", Toast.LENGTH_SHORT).show();
                                             }
                                             if(count_address==0 && !arrContacts.get(position).address.equals(uadrs)) {
                                                 FirebaseMessaging.getInstance().unsubscribeFromTopic(uadrs+"p");
-//                                                Toast.makeText(context, "unsubscribed "+uadrs+"p", Toast.LENGTH_SHORT).show();
                                             }
                                             count_category=0;
                                             count_address=0;
                                         } else {
-//                                            Toast.makeText(context, "not found", Toast.LENGTH_LONG).show();
                                             if(!arrContacts.get(position).category.equals(ucat)) {
                                                 FirebaseMessaging.getInstance().unsubscribeFromTopic(ucat + "p");
-//                                                Toast.makeText(context, "unsubscribed "+ucat+"p", Toast.LENGTH_SHORT).show();
                                             }
                                             if(!arrContacts.get(position).address.equals(uadrs)) {
                                                 FirebaseMessaging.getInstance().unsubscribeFromTopic(uadrs + "p");
-//                                                Toast.makeText(context, "unsubscribed " + uadrs + "p", Toast.LENGTH_SHORT).show();
                                             }
                                         }
                                     }
@@ -314,18 +306,10 @@ public class RecyclerContactAdapterW extends RecyclerView.Adapter<RecyclerContac
                                 FirebaseMessaging.getInstance().subscribeToTopic(arrContacts.get(position).category+"p");
                                 FirebaseMessaging.getInstance().subscribeToTopic(arrContacts.get(position).address+"p");
 
-                                //Toast.makeText(context.getApplicationContext(), "Subscribed to "+arrContacts.get(position).category+"p and "+arrContacts.get(position).address+"p",Toast.LENGTH_LONG).show();
-                                //Toast.makeText(getContext(), "Subscribed to all",Toast.LENGTH_LONG).show();
-
-
                                 FcmNotificationsSender notificationsSender = new FcmNotificationsSender("/topics/"+arrContacts.get(position).category,"New "+arrContacts.get(position).address+" "+arrContacts.get(position).category+" worker","Click here to know more",activity);
                                 notificationsSender.SendNotifications();
                                 FcmNotificationsSender notificationsSender2 = new FcmNotificationsSender("/topics/"+arrContacts.get(position).address,"New "+arrContacts.get(position).address+" "+arrContacts.get(position).category+" worker","Click here to know more", activity );
                                 notificationsSender2.SendNotifications();
-//                                FcmNotificationsSender notificationsSender1 = new FcmNotificationsSender("/topics/all","New any worker","Click here to know more", context.getApplicationContext(), dialogw.getOwnerActivity());
-//                                notificationsSender1.SendNotifications();
-//                                Toast.makeText(context.getApplicationContext(), "after sendNotifications", Toast.LENGTH_SHORT).show();
-                                //ma.fcmNotification(arrContacts.get(position).category,arrContacts.get(position).address);
 
                                 dialogw.dismiss();
                             }
@@ -372,7 +356,7 @@ public class RecyclerContactAdapterW extends RecyclerView.Adapter<RecyclerContac
                                             if (dataSnapshot.exists()) {
                                                 //Toast.makeText(context, "dataSnapshot exists", Toast.LENGTH_SHORT).show();
                                                 for (DataSnapshot user : dataSnapshot.getChildren()) {
-                                                    ContactModel contact = user.getValue(ContactModel.class);
+                                                    ContactModelW contact = user.getValue(ContactModelW.class);
                                                     if(cat.equals(contact.category)){
                                                         count_category = count_category +1;
                                                     }
@@ -380,8 +364,6 @@ public class RecyclerContactAdapterW extends RecyclerView.Adapter<RecyclerContac
                                                         count_address = count_address +1;
                                                     }
                                                 }
-//                                                Toast.makeText(context, "cat:"+count_category, Toast.LENGTH_SHORT).show();
-//                                                Toast.makeText(context, "adrs"+count_address, Toast.LENGTH_SHORT).show();
                                                 if(count_category==0){
                                                     FirebaseMessaging.getInstance().unsubscribeFromTopic(cat+"p");
 //                                                    Toast.makeText(context, "unsubscribed "+cat+"p", Toast.LENGTH_SHORT).show();
@@ -393,11 +375,8 @@ public class RecyclerContactAdapterW extends RecyclerView.Adapter<RecyclerContac
                                                 count_category=0;
                                                 count_address=0;
                                             } else {
-//                                                Toast.makeText(context, "not found", Toast.LENGTH_LONG).show();
                                                 FirebaseMessaging.getInstance().unsubscribeFromTopic(cat+"p");
-//                                                Toast.makeText(context, "unsubscribed "+cat+"p", Toast.LENGTH_SHORT).show();
                                                 FirebaseMessaging.getInstance().unsubscribeFromTopic(adrs+"p");
-//                                                Toast.makeText(context, "unsubscribed "+adrs+"p", Toast.LENGTH_SHORT).show();
                                             }
                                         }
 
@@ -429,7 +408,7 @@ public class RecyclerContactAdapterW extends RecyclerView.Adapter<RecyclerContac
                 }
 
                 if(arrContacts.get(position).timeStamp==2022){
-                   //Toast.makeText(context, "in l click", Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(context, "in l click", Toast.LENGTH_SHORT).show();
                     AlertDialog.Builder builder = new AlertDialog.Builder(context)
                             .setTitle("Remove from favourites")
                             .setMessage("            Are you sure to remove?")
@@ -509,19 +488,113 @@ public class RecyclerContactAdapterW extends RecyclerView.Adapter<RecyclerContac
                                     SharedPreferences pref = context.getSharedPreferences("MyPref", 0); // 0 - for private mode
                                     SharedPreferences.Editor editor = pref.edit();
                                     String loginpno = pref.getString("Pnol", null);
-//                                    FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
-//                                    DatabaseReference databaseReference = firebaseDatabase.getReference("Favoutires/"+loginpno);
-//                                    Favourites df=new Favourites(loginpno);
-//                                    df.add(df);
-////                                    databaseReference.push().setValue(arrContacts.get(position).phone);
                                     backendw bufav = new backendw(loginpno);
-                                    //Favourites favs = new Favourites((String)arrContacts.get(position).phone);
                                     bufav.addFav((String)arrContacts.get(position).phone);
                                     return true;
 
                                 case R.id.Rating:
                                     Toast.makeText(context, "rating", Toast.LENGTH_SHORT).show();
                                     return true;
+
+                                case R.id.StarRating:
+                                    RatingBar ratingBar;
+                                    Button submit;
+                                    Dialog dialog = new Dialog(activity);
+                                    dialog.setContentView(R.layout.rating);
+                                    ratingBar=(RatingBar) dialog.findViewById(R.id.starRating);
+                                    submit=(Button) dialog.findViewById(R.id.submit);
+
+                                    pref = context.getSharedPreferences("MyPref", 0); // 0 - for private mode
+                                    loginpno = pref.getString("Pnol", null);
+
+                                    noOfRatingsfW = arrContacts.get(position).noOfRatings;
+                                    ratingfW = arrContacts.get(position).rating;
+
+
+                                    FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+                                    DatabaseReference databaseReference = firebaseDatabase.getReference("RatingsW/"+loginpno);
+                                    Query query = databaseReference;
+                                    query.addListenerForSingleValueEvent(new ValueEventListener() {
+                                        @Override
+                                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                            //Toast.makeText(context, ""+snapshot.getValue(), Toast.LENGTH_SHORT).show();
+                                            prevratingW = snapshot.child(arrContacts.get(position).phone).getValue(Float.class);
+                                            prevratingW=prevratingW==null ? 0 : prevratingW;
+//                                            Toast.makeText(context, "Previous Rating: "+prevratingW, Toast.LENGTH_SHORT).show();
+                                        }
+
+                                        @Override
+                                        public void onCancelled(@NonNull DatabaseError error) {
+
+                                        }
+                                    });
+                                    submit.setOnClickListener(new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View view) {
+                                            float rating = ratingBar.getRating();
+//                                            Toast.makeText(context, "" + rating, Toast.LENGTH_SHORT).show();
+
+                                            //store in user given ratings
+                                            backendw bRat = new backendw(loginpno, "RatingsW");
+                                            bRat.addRat((String) arrContacts.get(position).phone, rating);
+                                            avgRating = 0;
+
+                                            //no previous ratings from this user
+                                            if (prevratingW == 0 || prevratingW.isNaN() || prevratingW.equals(null) ) {
+                                                avgRating = (ratingfW * noOfRatingsfW + rating) / (noOfRatingsfW + 1);
+//                                                Toast.makeText(context, "2=" + avgRating, Toast.LENGTH_SHORT).show();
+                                                noOfRatingsfW += 1;
+                                            }
+
+                                            else if (noOfRatingsfW == 1 && prevratingW!=0){
+                                                avgRating=rating;
+//                                                Toast.makeText(context, "3=" + avgRating, Toast.LENGTH_SHORT).show();
+//
+                                            }
+
+                                            //has previous ratings from this user
+                                            else if (noOfRatingsfW > 1 && prevratingW!=0) {
+                                                ratingfW = ((ratingfW * noOfRatingsfW) - prevratingW) / (noOfRatingsfW - 1);
+                                                avgRating = ((ratingfW * (noOfRatingsfW-1)) + rating) / (noOfRatingsfW);
+//                                                Toast.makeText(context, "4=" + avgRating, Toast.LENGTH_SHORT).show();
+                                           }
+
+//                                            Log.d("RecConAdaW", "AvgRating: "+avgRating);
+//                                            Log.d("RecConAdaW", "noOfRatings: "+noOfRatingsfW);
+
+                                            Query query2 = firebaseDatabase.getReference(ContactModelW.class.getSimpleName()).orderByChild("phone").equalTo(arrContacts.get(position).phone);
+                                            query2.addListenerForSingleValueEvent(new ValueEventListener() {
+                                                @Override
+                                                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                                    String key;
+                                                    for (DataSnapshot user: snapshot.getChildren()) {
+                                                        Log.d("RecConAdaW",user.toString());
+                                                        key = user.getKey();
+//                                                        Toast.makeText(context, "key: "+key, Toast.LENGTH_SHORT).show();
+                                                        DatabaseReference databaseReference1 = firebaseDatabase.getReference(ContactModelW.class.getSimpleName()).child(key);
+                                                        databaseReference1.child("noOfRatings").setValue(noOfRatingsfW);
+                                                        databaseReference1.child("rating").setValue(avgRating);
+//                                                        Log.d("RecConAdaW", databaseReference1.child("rating").toString());
+//                                                        Log.d("RecConAdaW", databaseReference1.child("noOfRatings").toString());
+                                                    }
+                                                }
+                                                @Override
+                                                public void onCancelled(@NonNull DatabaseError error) {
+
+                                                }
+                                            });
+
+
+                                            dialog.dismiss();
+
+                                        }
+
+                                    });
+
+                                    dialog.show();
+                                    return true;
+
+
                                 default:
                                     return false;
                             }
@@ -558,6 +631,7 @@ public class RecyclerContactAdapterW extends RecyclerView.Adapter<RecyclerContac
         ImageView img;
         Button menu;
         LinearLayout llRow;
+        RatingBar ratingBar;
 
         public ViewHolder(View itemView){
             super(itemView);
@@ -571,43 +645,37 @@ public class RecyclerContactAdapterW extends RecyclerView.Adapter<RecyclerContac
             img = itemView.findViewById(R.id.pimgW);
             menu = itemView.findViewById(R.id.menu);
             llRow = itemView.findViewById(R.id.llRowW);
+            ratingBar = itemView.findViewById(R.id.starRating);
 
         }
     }
 
-//    public void setpimg(Bitmap bitmap, View view){
-//        Toast.makeText(context,"enterd setpic",Toast.LENGTH_LONG).show();
-//        ViewHolder vh = new ViewHolder(view);
-//        vh.img.setImageBitmap(bitmap);
-//
-//    }
 //call to number
-    //for search call
-public void onPhnClick(String phno){
+    public void onPhnClick(String phno){
 
-    //Create builder object
-    AlertDialog.Builder builder = new AlertDialog.Builder(context);
-    builder.setTitle("Call");
-    builder.setIcon(R.drawable.ic_baseline_local_phone_24);
-    builder.setMessage(phno);
-    builder.setCancelable(true);
-    builder.setPositiveButton("Yes", (DialogInterface.OnClickListener)(dialog, which) ->{
-        if(ContextCompat.checkSelfPermission(context, Manifest.permission.CALL_PHONE)!= PackageManager.PERMISSION_GRANTED){
-            ActivityCompat.requestPermissions((Activity) context,new String[]{Manifest.permission.CALL_PHONE},REQUEST_PHONE_CALL);
-        }
-        if(ContextCompat.checkSelfPermission(context, Manifest.permission.CALL_PHONE)== PackageManager.PERMISSION_GRANTED) {
-            Intent callIntent = new Intent(Intent.ACTION_CALL);
-            callIntent.setData(Uri.parse("tel:" + phno));
-            context.startActivity(callIntent);
-        }
-    });
-    builder.setNegativeButton("No",(DialogInterface.OnClickListener)(dailog,which)->{
-        dailog.cancel();
-    });
-    //create alert dailog
-    AlertDialog alertDialog = builder.create();
-    alertDialog.show();
-}
+        //Create builder object
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setTitle("Call");
+        builder.setIcon(R.drawable.ic_baseline_local_phone_24);
+        builder.setMessage(phno);
+        builder.setCancelable(true);
+        builder.setPositiveButton("Yes", (DialogInterface.OnClickListener)(dialog, which) ->{
+            if(ContextCompat.checkSelfPermission(context, Manifest.permission.CALL_PHONE)!= PackageManager.PERMISSION_GRANTED){
+                ActivityCompat.requestPermissions((Activity) context,new String[]{Manifest.permission.CALL_PHONE},REQUEST_PHONE_CALL);
+            }
+            if(ContextCompat.checkSelfPermission(context, Manifest.permission.CALL_PHONE)== PackageManager.PERMISSION_GRANTED) {
+                Intent callIntent = new Intent(Intent.ACTION_CALL);
+                callIntent.setData(Uri.parse("tel:" + phno));
+                context.startActivity(callIntent);
+            }
+        });
+        builder.setNegativeButton("No",(DialogInterface.OnClickListener)(dailog,which)->{
+            dailog.cancel();
+        });
+        //create alert dailog
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
+    }
 
 }
 

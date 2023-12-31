@@ -22,179 +22,194 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingEnd="10dp"
-            android:paddingTop="20dp"
-            >
-
-            <Button
-                android:id="@+id/menu"
-                android:layout_width="25dp"
-                android:layout_height="25dp"
-                android:background="@drawable/ic_baseline_more_vert_24"
-                android:visibility="invisible"
-                android:layout_alignParentRight="true"/>
-
-            <ImageView
-                android:id="@+id/pimgW"
-                android:layout_width="152dp"
-                android:layout_height="136dp"
-                android:layout_centerHorizontal="true"
-                android:background="@color/white"
-                android:contentDescription="Profile image"
-                tools:srcCompat="@drawable/pimg" />
-
-        </RelativeLayout>
-
-        <LinearLayout
-            android:id="@+id/llRowW"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="20dp"
-            android:paddingEnd="10dp"
-            android:gravity="center_vertical"
-            android:orientation="vertical">
-
-            <LinearLayout
-
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="11dp"
-                android:layout_marginTop="11dp"
+                android:paddingEnd="10dp"
+                android:paddingTop="20dp"
+                >
+
+                <Button
+                    android:id="@+id/menu"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:background="@drawable/ic_baseline_more_vert_24"
+                    android:visibility="invisible"
+                    android:layout_alignParentRight="true"/>
+
+                <RatingBar
+                    android:id="@+id/starRating"
+                    style="?android:attr/ratingBarStyleSmall"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginRight="30dp"
+                    android:numStars="5"
+                    android:rating="0"
+                    android:stepSize="0.1"
+                    android:visibility="invisible"/>
+
+                <ImageView
+                    android:id="@+id/pimgW"
+                    android:layout_width="152dp"
+                    android:layout_height="136dp"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="35dp"
+                    android:background="@color/white"
+                    android:contentDescription="Profile image"
+                    tools:srcCompat="@drawable/pimg" />
+
+            </RelativeLayout>
+
+            <LinearLayout
+                android:id="@+id/llRowW"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingHorizontal="20dp"
+                android:paddingBottom="15dp"
+                android:gravity="center_vertical"
                 android:orientation="vertical">
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-                    <TextView
-                        android:id="@+id/WpNameW"
-                        android:layout_width="75pt"
-                        android:layout_height="wrap_content"
-                        android:text="Name"
-                        android:textSize="15sp"
-                        android:textStyle="bold"/>
 
-                    <TextView
-                        android:id="@+id/WpNameiW"
-                        android:layout_width="75pt"
-                        android:layout_height="wrap_content"
-                        android:text="Name"
-                        android:textSize="15sp"
-                        android:textStyle="italic" />
+                <LinearLayout
+
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="11dp"
+                    android:layout_marginTop="11dp"
+                    android:orientation="vertical">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+                        <TextView
+                            android:id="@+id/WpNameW"
+                            android:layout_width="75pt"
+                            android:layout_height="wrap_content"
+                            android:text="Name"
+                            android:textSize="15sp"
+                            android:textStyle="bold"/>
+
+                        <TextView
+                            android:id="@+id/WpNameiW"
+                            android:layout_width="75pt"
+                            android:layout_height="wrap_content"
+                            android:text="Name"
+                            android:textSize="15sp"
+                            android:textStyle="italic" />
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:id="@+id/WpAddW"
+                            android:layout_width="75pt"
+                            android:layout_height="wrap_content"
+                            android:text="Work Address"
+                            android:textSize="15sp"
+                            android:textStyle="bold"/>
+
+                        <TextView
+                            android:id="@+id/WpAddiW"
+                            android:layout_width="75pt"
+                            android:layout_height="wrap_content"
+                            android:text="Work Address"
+                            android:textSize="15sp"
+                            android:textStyle="italic" />
+
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:id="@+id/WCatW"
+                            android:layout_width="75pt"
+                            android:layout_height="wrap_content"
+                            android:text="Category"
+                            android:textSize="15sp"
+                            android:textStyle="bold"/>
+
+                        <TextView
+                            android:id="@+id/WCatiW"
+                            android:layout_width="75pt"
+                            android:layout_height="wrap_content"
+                            android:text="Category"
+                            android:textSize="15sp"
+                            android:textStyle="italic" />
+
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:id="@+id/WDesW"
+                            android:layout_width="75pt"
+                            android:layout_height="wrap_content"
+                            android:text="Description"
+                            android:textSize="15sp"
+                            android:textStyle="bold"/>
+
+                        <TextView
+                            android:id="@+id/WDesiW"
+                            android:layout_width="75pt"
+                            android:layout_height="wrap_content"
+                            android:text="Description"
+                            android:textSize="15sp"
+                            android:textStyle="italic" />
+
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:id="@+id/WQuaW"
+                            android:layout_width="75pt"
+                            android:layout_height="wrap_content"
+                            android:text="Experience"
+                            android:textSize="15sp"
+                            android:textStyle="bold"/>
+
+                        <TextView
+                            android:id="@+id/WQuaiW"
+                            android:layout_width="75pt"
+                            android:layout_height="wrap_content"
+                            android:text="Quantity"
+                            android:textSize="15sp"
+                            android:textStyle="italic" />
+
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:id="@+id/phoneW"
+                            android:layout_width="75pt"
+                            android:layout_height="wrap_content"
+                            android:text="Contact"
+                            android:textSize="15sp"
+                            android:textStyle="bold"/>
+
+                        <TextView
+                            android:id="@+id/phoneiW"
+                            android:layout_width="75pt"
+                            android:layout_height="wrap_content"
+                            android:text="Contact"
+                            android:textSize="15sp"
+                            android:textStyle="italic" />
+
+                    </LinearLayout>
+
+
+
+
                 </LinearLayout>
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                    <TextView
-                        android:id="@+id/WpAddW"
-                        android:layout_width="75pt"
-                        android:layout_height="wrap_content"
-                        android:text="Work Address"
-                        android:textSize="15sp"
-                        android:textStyle="bold"/>
-
-                    <TextView
-                        android:id="@+id/WpAddiW"
-                        android:layout_width="75pt"
-                        android:layout_height="wrap_content"
-                        android:text="Work Address"
-                        android:textSize="15sp"
-                        android:textStyle="italic" />
-
-                </LinearLayout>
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                    <TextView
-                        android:id="@+id/WCatW"
-                        android:layout_width="75pt"
-                        android:layout_height="wrap_content"
-                        android:text="Category"
-                        android:textSize="15sp"
-                        android:textStyle="bold"/>
-
-                    <TextView
-                        android:id="@+id/WCatiW"
-                        android:layout_width="75pt"
-                        android:layout_height="wrap_content"
-                        android:text="Category"
-                        android:textSize="15sp"
-                        android:textStyle="italic" />
-
-            </LinearLayout>
-            <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-                <TextView
-                    android:id="@+id/WDesW"
-                    android:layout_width="75pt"
-                    android:layout_height="wrap_content"
-                    android:text="Description"
-                    android:textSize="15sp"
-                    android:textStyle="bold"/>
-
-                <TextView
-                    android:id="@+id/WDesiW"
-                    android:layout_width="75pt"
-                    android:layout_height="wrap_content"
-                    android:text="Description"
-                    android:textSize="15sp"
-                    android:textStyle="italic" />
-
-            </LinearLayout>
-            <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-                <TextView
-                    android:id="@+id/WQuaW"
-                    android:layout_width="75pt"
-                    android:layout_height="wrap_content"
-                    android:text="Experience"
-                    android:textSize="15sp"
-                    android:textStyle="bold"/>
-
-                <TextView
-                    android:id="@+id/WQuaiW"
-                    android:layout_width="75pt"
-                    android:layout_height="wrap_content"
-                    android:text="Quantity"
-                    android:textSize="15sp"
-                    android:textStyle="italic" />
-
-            </LinearLayout>
-            <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-                <TextView
-                    android:id="@+id/phoneW"
-                    android:layout_width="75pt"
-                    android:layout_height="wrap_content"
-                    android:text="Contact"
-                    android:textSize="15sp"
-                    android:textStyle="bold"/>
-
-                <TextView
-                    android:id="@+id/phoneiW"
-                    android:layout_width="75pt"
-                    android:layout_height="wrap_content"
-                    android:text="Contact"
-                    android:textSize="15sp"
-                    android:textStyle="italic" />
-
-            </LinearLayout>
-
-
-
-
             </LinearLayout>
         </LinearLayout>
-        </LinearLayout>
+
     </androidx.cardview.widget.CardView>
 
 </LinearLayout>

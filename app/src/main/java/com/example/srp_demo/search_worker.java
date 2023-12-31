@@ -130,7 +130,7 @@ public class search_worker extends Fragment implements  AdapterView.OnItemSelect
                 progressDialog.show();
                 flag = "no";
 
-                MainActivity.imm.hideSoftInputFromWindow(getActivity().getCurrentFocus().getWindowToken(),0);
+                if(getActivity().getCurrentFocus()!=null) MainActivity.imm.hideSoftInputFromWindow(getActivity().getCurrentFocus().getWindowToken(),0);
 
                 Toast.makeText(getContext(), "Searching", Toast.LENGTH_SHORT).show();
                 arrContacts_searchw.clear();
@@ -151,9 +151,13 @@ public class search_worker extends Fragment implements  AdapterView.OnItemSelect
                                 if (dataSnapshot.exists()) {
                                     for (DataSnapshot user : dataSnapshot.getChildren()) {
 
-                                        ContactModel contact = user.getValue(ContactModel.class);
+                                        ContactModelW contact = user.getValue(ContactModelW.class);
+                                        contact.rating = Float.parseFloat(dataSnapshot.child(contact.key).child("rating").getValue().toString());
+                                        contact.noOfRatings = Integer.parseInt(dataSnapshot.child(contact.key).child("noOfRatings").getValue().toString());
+                                        Toast.makeText(getContext(), "before nr"+contact.noOfRatings, Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(getContext(), "before r"+contact.rating, Toast.LENGTH_SHORT).show();
 
-                                        if (contact.address.equals(address_spn) && contact.address.equals(address_spn)) {
+                                        if (contact.address.equals(address_spn) && contact.category.equals(category_spn)) {
                                             arrContacts_searchw.add(new ContactModelW(bitmap_default, contact.name, contact.address, contact.category, contact.description, contact.quantity, contact.phone, contact.key, 0,1,contact.timeStamp,contact.rating,contact.noOfRatings));
                                             //Collections.reverse(arrContacts_searchw);
                                             adapter_sw = new RecyclerContactAdapterW(view5.getContext(), arrContacts_searchw, getActivity());
@@ -237,8 +241,12 @@ public class search_worker extends Fragment implements  AdapterView.OnItemSelect
                                         if (dataSnapshot.exists()) {
                                             //Toast.makeText(getContext(), "exists", Toast.LENGTH_SHORT).show();
                                             for (DataSnapshot user : dataSnapshot.getChildren()) {
-                                                ContactModel contact = user.getValue(ContactModel.class);
-                                                //Toast.makeText(getContext(), ""+contact, Toast.LENGTH_SHORT).show();
+                                                ContactModelW contact = user.getValue(ContactModelW.class);
+                                                contact.rating = Float.parseFloat(dataSnapshot.child(contact.key).child("rating").getValue().toString());
+                                                contact.noOfRatings = Integer.parseInt(dataSnapshot.child(contact.key).child("noOfRatings").getValue().toString());
+                                                Toast.makeText(getContext(), "before nr"+contact.noOfRatings, Toast.LENGTH_SHORT).show();
+                                                Toast.makeText(getContext(), "before r"+contact.rating, Toast.LENGTH_SHORT).show();
+
                                                 arrContacts_searchw.add(new ContactModelW(bitmap_default,contact.name, contact.address, contact.category, contact.description, contact.quantity, contact.phone, contact.key,0,1,2022,contact.rating,contact.noOfRatings));
                                                 adapter_sw = new RecyclerContactAdapterW(view5.getContext(), arrContacts_searchw, getActivity());
                                                 recyclerView_sw.setAdapter(adapter_sw);
@@ -246,6 +254,10 @@ public class search_worker extends Fragment implements  AdapterView.OnItemSelect
                                                     progressDialog.dismiss();
                                                 }
                                                 setpic(arrContacts_searchw.size() - 1);
+//                                                if (arrContacts_searchw.size() > 1) {
+//                                                    adapter_sw.notifyItemInserted(arrContacts_searchw.size() - 1);
+//                                                    recyclerView_sw.scrollToPosition(arrContacts_searchw.size() - 1);
+//                                                }
 
                                                 count=1;
 
@@ -254,12 +266,14 @@ public class search_worker extends Fragment implements  AdapterView.OnItemSelect
                                                 if (progressDialog.isShowing()) {
                                                     progressDialog.dismiss();
                                                 }
-                                                Toast.makeText(getContext(), "No worker is avialable from your favourites", Toast.LENGTH_SHORT).show();
+                                                Toast.makeText(getContext(), "No worker is available from your favourites", Toast.LENGTH_SHORT).show();
                                             }
 
-                                        }
-                                        else{
-                                            Toast.makeText(getContext(), "You have no favorite workers", Toast.LENGTH_SHORT).show();
+                                        }else {
+                                            if (progressDialog.isShowing()) {
+                                                progressDialog.dismiss();
+                                            }
+                                            Toast.makeText(getContext(), "No worker is available", Toast.LENGTH_SHORT).show();
                                         }
                                     }
                                     @Override
@@ -268,8 +282,11 @@ public class search_worker extends Fragment implements  AdapterView.OnItemSelect
                                     }
                                 });
                             }
-                        } else {
-
+                        }  else{
+                            if (progressDialog.isShowing()) {
+                                progressDialog.dismiss();
+                            }
+                            Toast.makeText(getContext(), "You have no favorite workers", Toast.LENGTH_SHORT).show();
                         }
                     }
 

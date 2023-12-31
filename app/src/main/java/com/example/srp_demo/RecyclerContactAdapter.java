@@ -76,9 +76,10 @@ public class RecyclerContactAdapter extends RecyclerView.Adapter<RecyclerContact
     String category;
 
     Float prevrating= Float.valueOf(0);
-    int noOfRatingsf = 0;
+    long noOfRatingsf= 0;
     float ratingf = 0;
     int exist=0;
+    float avgRating = 0;
 
     @NonNull
     @Override
@@ -94,8 +95,6 @@ public class RecyclerContactAdapter extends RecyclerView.Adapter<RecyclerContact
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, @SuppressLint("RecyclerView") int position) {
 
-        ContactModel model = (ContactModel) arrContacts.get(position);
-
         holder.img.setImageBitmap(arrContacts.get(position).img1);
         holder.name.setText(arrContacts.get(position).name);
         holder.address.setText(arrContacts.get(position).address);
@@ -103,11 +102,19 @@ public class RecyclerContactAdapter extends RecyclerView.Adapter<RecyclerContact
         holder.description.setText(arrContacts.get(position).description);
         holder.quantity.setText(arrContacts.get(position).quantity);
         holder.contact.setText(arrContacts.get(position).phone);
-//        Toast.makeText(context, "noOfRat"+arrContacts.get(position).noOfRatings, Toast.LENGTH_SHORT).show();
+        FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+        // DatabaseReference databaseReference = firebaseDatabase.getReference("Ratings/"+arrContacts.get(position).phone);
+        Toast.makeText(context, "noOfRat "+arrContacts.get(position).noOfRatings, Toast.LENGTH_SHORT).show();
+        Toast.makeText(context, "rat "+arrContacts.get(position).rating, Toast.LENGTH_SHORT).show();
         //make menu option visible in search page
         if(arrContacts.get(position).menu==1){
             holder.menu.setVisibility(View.VISIBLE);
         }
+        holder.ratingBar.setRating(arrContacts.get(position).rating);
+        if (holder.ratingBar.getRating()!=0){
+            holder.ratingBar.setVisibility(View.VISIBLE);
+        }
+
 
         //for card update
         holder.llRow.setOnClickListener(new View.OnClickListener() {
@@ -182,10 +189,6 @@ public class RecyclerContactAdapter extends RecyclerView.Adapter<RecyclerContact
                             //Toast.makeText(context, address, Toast.LENGTH_SHORT).show();
                         }
                     });
-//                    catAtv.setCompletionHint(arrContacts.get(position).category);
-//                    locAtv.setCompletionHint(arrContacts.get(position).address);
-//                    address_a.setSelection(adapter_a1.getPosition(arrContacts.get(position).address));
-//                    category_a.setSelection(adapter_a2.getPosition(arrContacts.get(position).category));
                     edtDes.setText((arrContacts.get(position)).description);
                     edtQuan.setText((arrContacts.get(position)).quantity);
                     edtPhone.setText((arrContacts.get(position)).phone);
@@ -239,14 +242,12 @@ public class RecyclerContactAdapter extends RecyclerView.Adapter<RecyclerContact
                                 map.put("description", des.toString());
                                 map.put("name", name.toString());
                                 map.put("phone", phone.toString());
-                                //map.put("address",contact.img);
                                 map.put("quantity", quan.toString());
                                 map.put("key", arrContacts.get(position).key.toString());
-                               long timeStamp=-1*System.currentTimeMillis();
+                                long timeStamp=-1*System.currentTimeMillis();
                                 map.put("timeStamp",timeStamp);
                                 map.put("noOfRatings",arrContacts.get(position).noOfRatings);
                                 map.put("rating",arrContacts.get(position).rating);
-                                //map.put("address",contact.clickable);
 
                                 FirebaseDatabase db = FirebaseDatabase.getInstance();
 
@@ -276,27 +277,20 @@ public class RecyclerContactAdapter extends RecyclerView.Adapter<RecyclerContact
                                                     count_address = count_address +1;
                                                 }
                                             }
-//                                            Toast.makeText(context, "cat:"+count_category, Toast.LENGTH_SHORT).show();
-//                                            Toast.makeText(context, "adrs"+count_address, Toast.LENGTH_SHORT).show();
                                             if(count_category==0 && !arrContacts.get(position).category.equals(ucat)){
                                                 FirebaseMessaging.getInstance().unsubscribeFromTopic(ucat);
-//                                                Toast.makeText(context, "unsubscribed "+ucat, Toast.LENGTH_SHORT).show();
                                             }
                                             if(count_address==0 && !arrContacts.get(position).address.equals(uadrs)) {
                                                 FirebaseMessaging.getInstance().unsubscribeFromTopic(uadrs);
-//                                                Toast.makeText(context, "unsubscribed "+uadrs, Toast.LENGTH_SHORT).show();
                                             }
                                             count_category=0;
                                             count_address=0;
                                         } else {
-//                                            Toast.makeText(context, "not found", Toast.LENGTH_LONG).show();
                                             if(!arrContacts.get(position).category.equals(ucat)) {
                                                 FirebaseMessaging.getInstance().unsubscribeFromTopic(ucat);
-//                                                Toast.makeText(context, "unsubscribed " + ucat, Toast.LENGTH_SHORT).show();
                                             }
                                             if(!arrContacts.get(position).address.equals(uadrs)) {
                                                 FirebaseMessaging.getInstance().unsubscribeFromTopic(uadrs);
-//                                                Toast.makeText(context, "unsubscribed " + uadrs, Toast.LENGTH_SHORT).show();
                                             }
                                         }
                                     }
@@ -321,27 +315,14 @@ public class RecyclerContactAdapter extends RecyclerView.Adapter<RecyclerContact
                                 FirebaseMessaging.getInstance().subscribeToTopic(arrContacts.get(position).category);
                                 FirebaseMessaging.getInstance().subscribeToTopic(arrContacts.get(position).address);
 
-                                //Toast.makeText(context.getApplicationContext(), "Subscribed to "+arrContacts.get(position).category+" and "+arrContacts.get(position).address,Toast.LENGTH_LONG).show();
-                                //Toast.makeText(getContext(), "Subscribed to all",Toast.LENGTH_LONG).show();
-
-
-
                                 FcmNotificationsSender notificationsSender = new FcmNotificationsSender("/topics/"+arrContacts.get(position).category+"p","New "+arrContacts.get(position).address+" "+arrContacts.get(position).category+" work provider","Click here to know more",activity);
                                 notificationsSender.SendNotifications();
                                 FcmNotificationsSender notificationsSender2 = new FcmNotificationsSender("/topics/"+arrContacts.get(position).address+"p","New "+arrContacts.get(position).address+" "+arrContacts.get(position).category+" work provider","Click here to know more",  activity );
                                 notificationsSender2.SendNotifications();
 
-
-//                                FcmNotificationsSender notificationsSender1 = new FcmNotificationsSender("/topics/all","New any worker","Click here to know more", context.getApplicationContext(), dialog.getOwnerActivity());
-//                                //notificationsSender1.SendNotifications();
-                               // Toast.makeText(context.getApplicationContext(), "after sendNotifications2", Toast.LENGTH_SHORT).show();
-
-
                                 dialog.dismiss();
-                                //Toast.makeText(context.getApplicationContext(), "dialog dismissed", Toast.LENGTH_SHORT).show();
 
                             }
-
                         }
                     });
                     dialog.show();
@@ -356,7 +337,7 @@ public class RecyclerContactAdapter extends RecyclerView.Adapter<RecyclerContact
             @Override
             public boolean onLongClick(View view) {
 
-                if(arrContacts.get(position).clickable==1) {
+                if(arrContacts.get(position).clickable==1 && arrContacts.get(position).timeStamp!=2002) {
                     AlertDialog.Builder builder = new AlertDialog.Builder(context)
                             .setTitle("Delete Announcement")
                             .setMessage("            Are you sure to delete?")
@@ -370,7 +351,6 @@ public class RecyclerContactAdapter extends RecyclerView.Adapter<RecyclerContact
 
                                     SharedPreferences pref = context.getSharedPreferences("MyPref", 0); // 0 - for private mode
                                     String loginpno = pref.getString("Pnol", null);
-                                    //Toast.makeText(context, loginpno, Toast.LENGTH_SHORT).show();
 
                                     FirebaseDatabase db = FirebaseDatabase.getInstance();
 
@@ -391,24 +371,17 @@ public class RecyclerContactAdapter extends RecyclerView.Adapter<RecyclerContact
                                                         count_address = count_address +1;
                                                     }
                                                 }
-//                                                Toast.makeText(context, "cat:"+count_category, Toast.LENGTH_SHORT).show();
-//                                                Toast.makeText(context, "adrs"+count_address, Toast.LENGTH_SHORT).show();
                                                 if(count_category==0){
                                                     FirebaseMessaging.getInstance().unsubscribeFromTopic(cat);
-//                                                    Toast.makeText(context, "unsubscribed "+cat, Toast.LENGTH_SHORT).show();
                                                 }
                                                 if(count_address==0) {
                                                     FirebaseMessaging.getInstance().unsubscribeFromTopic(adrs);
-//                                                    Toast.makeText(context, "unsubscribed "+adrs, Toast.LENGTH_SHORT).show();
                                                 }
                                                 count_category=0;
                                                 count_address=0;
                                             } else {
-                                                //Toast.makeText(context, "not found", Toast.LENGTH_LONG).show();
                                                 FirebaseMessaging.getInstance().unsubscribeFromTopic(cat);
-                                                //Toast.makeText(context, "unsubscribed "+cat, Toast.LENGTH_SHORT).show();
                                                 FirebaseMessaging.getInstance().unsubscribeFromTopic(adrs);
-                                                //Toast.makeText(context, "unsubscribed "+adrs, Toast.LENGTH_SHORT).show();
                                             }
                                         }
 
@@ -418,7 +391,6 @@ public class RecyclerContactAdapter extends RecyclerView.Adapter<RecyclerContact
                                         }
                                     });
 
-
                                     DatabaseReference databaseReference = db.getReference(ContactModel.class.getSimpleName());
                                     databaseReference
                                             .child(arrContacts.get(position).key)
@@ -426,13 +398,6 @@ public class RecyclerContactAdapter extends RecyclerView.Adapter<RecyclerContact
 
                                     arrContacts.remove(position);
                                     notifyItemRemoved(position);
-                                    //Toast.makeText(context, "removed", Toast.LENGTH_SHORT).show();
-
-
-
-
-
-
 
                                 }
                             })
@@ -445,10 +410,8 @@ public class RecyclerContactAdapter extends RecyclerView.Adapter<RecyclerContact
                     builder.show();
 
                 }
-                //Toast.makeText(context, ""+ arrContacts.get(position).timeStamp, Toast.LENGTH_SHORT).show();
 
-                if(arrContacts.get(position).timeStamp==2022){
-                   // Toast.makeText(context, "in l click", Toast.LENGTH_SHORT).show();
+                if(arrContacts.get(position).timeStamp==2002){
                     AlertDialog.Builder builder = new AlertDialog.Builder(context)
                             .setTitle("Remove from favourites")
                             .setMessage("            Are you sure to remove?")
@@ -461,7 +424,6 @@ public class RecyclerContactAdapter extends RecyclerView.Adapter<RecyclerContact
 
                                     SharedPreferences pref = context.getSharedPreferences("MyPref", 0); // 0 - for private mode
                                     String loginpno = pref.getString("Pnol", null);
-                                    //Toast.makeText(context, loginpno, Toast.LENGTH_SHORT).show();
 
                                     FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
                                     DatabaseReference databaseReference = firebaseDatabase.getReference("Favourites/"+loginpno);
@@ -469,8 +431,6 @@ public class RecyclerContactAdapter extends RecyclerView.Adapter<RecyclerContact
 
                                     arrContacts.remove(position);
                                     notifyItemRemoved(position);
-                                    //Toast.makeText(context, "removed", Toast.LENGTH_SHORT).show();
-
 
                                 }
                             })
@@ -529,13 +489,7 @@ public class RecyclerContactAdapter extends RecyclerView.Adapter<RecyclerContact
                                     SharedPreferences pref = context.getSharedPreferences("MyPref", 0); // 0 - for private mode
                                     SharedPreferences.Editor editor = pref.edit();
                                     String loginpno = pref.getString("Pnol", null);
-//                                    FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
-//                                    DatabaseReference databaseReference = firebaseDatabase.getReference("Favoutires/"+loginpno);
-//                                    Favourites df=new Favourites(loginpno);
-//                                    df.add(df);
-////                                    databaseReference.push().setValue(arrContacts.get(position).phone);
                                     backend bufav = new backend(loginpno);
-                                    //Favourites favs = new Favourites((String)arrContacts.get(position).phone);
                                     bufav.addFav((String)arrContacts.get(position).phone);
                                     return true;
 
@@ -552,6 +506,8 @@ public class RecyclerContactAdapter extends RecyclerView.Adapter<RecyclerContact
                                     pref = context.getSharedPreferences("MyPref", 0); // 0 - for private mode
                                     loginpno = pref.getString("Pnol", null);
 
+                                    noOfRatingsf=arrContacts.get(position).noOfRatings;
+                                    ratingf=arrContacts.get(position).rating;
 
                                     FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
                                     DatabaseReference databaseReference = firebaseDatabase.getReference("Ratings/"+loginpno);
@@ -559,10 +515,9 @@ public class RecyclerContactAdapter extends RecyclerView.Adapter<RecyclerContact
                                     query.addListenerForSingleValueEvent(new ValueEventListener() {
                                         @Override
                                         public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                            Toast.makeText(context, ""+snapshot.getValue(), Toast.LENGTH_SHORT).show();
                                             prevrating = snapshot.child(arrContacts.get(position).phone).getValue(Float.class);
-                                            prevrating=prevrating==null?0:prevrating;
-                                            Toast.makeText(context, "prevrating"+prevrating, Toast.LENGTH_SHORT).show();
+                                            prevrating=prevrating==null ? 0 : prevrating;
+                                            Toast.makeText(context, "Previous Rating: "+prevrating, Toast.LENGTH_SHORT).show();
                                         }
 
                                         @Override
@@ -570,134 +525,62 @@ public class RecyclerContactAdapter extends RecyclerView.Adapter<RecyclerContact
 
                                         }
                                     });
-                                    databaseReference = firebaseDatabase.getReference(GotRatings.class.getSimpleName());
-//                                    Map<String, Object> map = new HashMap<>();
-//                                    map.put("phone", arrContacts.get(position).phone);
-//                                    map.put("address", arrContacts.get(position).address);
-//                                    map.put("category", arrContacts.get(position).category);
-//                                    //map.put("address",contact.img);
-//                                    map.put("noOfRatings",arrContacts.get(position).noOfRatings);
-//                                    map.put("rating",arrContacts.get(position).rating);
-//                                    databaseReference.child(arrContacts.get(position).phone).setValue(map).addOnSuccessListener(new OnSuccessListener<Void>() {
-//                                        @Override
-//                                        public void onSuccess(Void unused) {
-//                                            Toast.makeText(context, "pushed", Toast.LENGTH_SHORT).show();
-//                                        }
-//                                    });
-                                    exist=0;
-                                    databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
-                                        @Override
-                                        public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                            for (DataSnapshot user: snapshot.getChildren()) {
-                                               // GotRatings gRating =user.getValue(GotRatings.class);
-                                                if(user.getKey().equals(arrContacts.get(position).phone)){
-                                                    exist=1;
-                                                    Toast.makeText(context, "yes", Toast.LENGTH_SHORT).show();
-                                                    noOfRatingsf=user.child("noOfRatings").getValue(Integer.class);
-                                                    ratingf=user.child("rating").getValue(Float.class);
 
 
-                                                    //Toast.makeText(context, ""+snapshot.getValue(), Toast.LENGTH_SHORT).show();
-                                                    Toast.makeText(context, "phone"+arrContacts.get(position).phone, Toast.LENGTH_SHORT).show();
-//                                                    Toast.makeText(context, "noOfRat"+noOfRatingsf, Toast.LENGTH_SHORT).show();
-                                                    Toast.makeText(context, "Rat"+ratingf, Toast.LENGTH_SHORT).show();
-                                                }
-                                                //Toast.makeText(context, ""+user, Toast.LENGTH_SHORT).show();
-
-                                            }
-                                            if(exist==0){
-                                                //add with default values
-                                                Map<String, Object> map = new HashMap<>();
-                                                map.put("phone", arrContacts.get(position).phone);
-                                                map.put("address", arrContacts.get(position).address);
-                                                map.put("category", arrContacts.get(position).category);
-                                                //map.put("address",contact.img);
-                                                map.put("noOfRatings", 0);
-                                                map.put("rating", 0);
-                                                Toast.makeText(context, "map", Toast.LENGTH_SHORT).show();
-                                                FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
-                                                DatabaseReference databaseReference = firebaseDatabase.getReference("GotRatings");
-                                                databaseReference.child(arrContacts.get(position).phone).setValue(map).addOnSuccessListener(new OnSuccessListener<Void>() {
-                                                    @Override
-                                                    public void onSuccess(Void unused) {
-                                                        Toast.makeText(context, "added to firebase", Toast.LENGTH_SHORT).show();
-                                                    }
-                                                });
-                                            }
-                                        }
-
-//                                            GotRatings gRating = (GotRatings) snapshot.getValue(GotRatings.class);
-//                                            int noOfRatings = 0;
-//                                            noOfRatings=gRating==null?0:gRating.noOfRatings;
-//                                            float rating = 0;
-//                                            rating=gRating==null?0:gRating.rating;
-//
-//                                            Toast.makeText(context, ""+snapshot.getValue(), Toast.LENGTH_SHORT).show();
-//                                            Toast.makeText(context, "noOfRat"+gRating.noOfRatings, Toast.LENGTH_SHORT).show();
-//                                            Toast.makeText(context, "Rat"+gRating.rating, Toast.LENGTH_SHORT).show();
-//                                        }
-
-                                        @Override
-                                        public void onCancelled(@NonNull DatabaseError error) {
-
-                                        }
-                                    });
                                     submit.setOnClickListener(new View.OnClickListener() {
                                         @Override
                                         public void onClick(View view) {
                                             float rating = ratingBar.getRating();
-                                            Toast.makeText(context, "" + rating, Toast.LENGTH_SHORT).show();
 
                                             //store in user given ratings
                                             backend bRat = new backend(loginpno, "Ratings");
                                             bRat.addRat((String) arrContacts.get(position).phone, rating);
-                                            float avgRating = 0;
-
-                                            // no ratings by anyone
-                                            if (noOfRatingsf == 0) {
-                                                avgRating = rating;
-                                                Toast.makeText(context, "1=" + avgRating, Toast.LENGTH_SHORT).show();
-                                            }
+                                            avgRating = 0;
 
                                             //no previous ratings from this user
-                                            else if (prevrating == Float.valueOf(0) || prevrating.isNaN() || prevrating.equals(null)) {
-                                                avgRating = (ratingf + rating) / (noOfRatingsf + 1);
-                                                Toast.makeText(context, "2=" + avgRating, Toast.LENGTH_SHORT).show();
+                                            if (prevrating == 0 || prevrating.isNaN() || prevrating.equals(null) ) {
+                                                avgRating = (ratingf * noOfRatingsf + rating) / (noOfRatingsf + 1);
+//                                                Toast.makeText(context, "2=" + avgRating, Toast.LENGTH_SHORT).show();
+                                                noOfRatingsf += 1;
+                                            }
+
+                                            if (noOfRatingsf == 1 && prevrating!=0){
+                                                avgRating=rating;
+//                                                Toast.makeText(context, "3=" + avgRating, Toast.LENGTH_SHORT).show();
+//
                                             }
 
                                             //has previous ratings from this user
-                                            else if (noOfRatingsf  >= 1) {
+                                            if (noOfRatingsf > 1 && prevrating!=0) {
                                                 ratingf = ((ratingf * noOfRatingsf) - prevrating) / (noOfRatingsf - 1);
-                                                noOfRatingsf-=1;
-                                                avgRating = ((ratingf * noOfRatingsf) + rating) / (noOfRatingsf + 1);
-                                                Toast.makeText(context, "3=" + avgRating, Toast.LENGTH_SHORT).show();
+                                                avgRating = ((ratingf * (noOfRatingsf-1)) + rating) / (noOfRatingsf);
+//                                                Toast.makeText(context, "4=" + avgRating, Toast.LENGTH_SHORT).show();
 //
-//                                            }
-                                                Toast.makeText(context, "after conditions", Toast.LENGTH_SHORT).show();
-                                                noOfRatingsf+=1;
-                                                Toast.makeText(context, "map before", Toast.LENGTH_SHORT).show();
-                                                //update to firebase
-                                                Map<String, Object> map = new HashMap<>();
-                                                map.put("phone", arrContacts.get(position).phone);
-                                                map.put("address", arrContacts.get(position).address);
-                                                map.put("category", arrContacts.get(position).category);
-                                                //map.put("address",contact.img);
-                                                map.put("noOfRatings", noOfRatingsf);
-                                                map.put("rating", avgRating);
-                                                Toast.makeText(context, "map", Toast.LENGTH_SHORT).show();
-                                                FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
-                                                DatabaseReference databaseReference = firebaseDatabase.getReference("GotRatings");
-                                                databaseReference.child(arrContacts.get(position).phone).updateChildren(map).addOnSuccessListener(new OnSuccessListener<Void>() {
-                                                    @Override
-                                                    public void onSuccess(Void unused) {
-                                                        Toast.makeText(context, "updated to firebase", Toast.LENGTH_SHORT).show();
-                                                    }
-                                                });
-
-
-
-                                                dialog.dismiss();
                                             }
+
+
+                                            Query query2 = firebaseDatabase.getReference(ContactModel.class.getSimpleName()).orderByChild("phone").equalTo(arrContacts.get(position).phone);
+                                            query2.addListenerForSingleValueEvent(new ValueEventListener() {
+                                                @Override
+                                                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                                    String key;
+                                                    for (DataSnapshot user: snapshot.getChildren()) {
+                                                        key = user.getKey();
+                                                        //Toast.makeText(context, "key: "+key, Toast.LENGTH_SHORT).show();
+                                                        DatabaseReference databaseReference1 = firebaseDatabase.getReference(ContactModel.class.getSimpleName()).child(key);
+                                                        databaseReference1.child("noOfRatings").setValue(noOfRatingsf);
+                                                        databaseReference1.child("rating").setValue(avgRating);
+                                                    }
+                                                }
+
+                                                @Override
+                                                public void onCancelled(@NonNull DatabaseError error) {
+
+                                                }
+                                            });
+
+                                            dialog.dismiss();
+
                                         }
 
                                     });
@@ -738,6 +621,7 @@ public class RecyclerContactAdapter extends RecyclerView.Adapter<RecyclerContact
         ImageView img;
         Button menu;
         LinearLayout llRow;
+        RatingBar ratingBar;
 
         public ViewHolder(View itemView){
             super(itemView);
@@ -751,6 +635,7 @@ public class RecyclerContactAdapter extends RecyclerView.Adapter<RecyclerContact
             img = itemView.findViewById(R.id.pimg);
             menu = itemView.findViewById(R.id.menu);
             llRow = itemView.findViewById(R.id.llRow);
+            ratingBar = itemView.findViewById(R.id.starRating);
 
         }
     }
@@ -781,4 +666,3 @@ public class RecyclerContactAdapter extends RecyclerView.Adapter<RecyclerContact
         alertDialog.show();
     }
 }
-

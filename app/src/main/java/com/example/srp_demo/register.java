@@ -245,7 +245,7 @@ public class register extends Fragment {
                     }
                     if(count==0){
                         noRegImg.setVisibility(View.VISIBLE);
-                        Toast.makeText(getContext(), "No Registrations Found", Toast.LENGTH_SHORT).show();
+                        if (getContext()!=null) Toast.makeText(getContext(), "No Registrations Found", Toast.LENGTH_SHORT).show();
                     }
                 }
             }

@@ -20,23 +20,23 @@ public class backend {
     public Task<Void> add(ContactModel contact){
 
 
-            Map<String,Object> map= new HashMap<>();
-            map.put("address",contact.address.toString());
-            map.put("category",contact.category.toString());
-            map.put("description",contact.description.toString());
-            map.put("name",contact.name.toString());
-            map.put("phone",contact.phone.toString());
-            //map.put("address",contact.img);
-            map.put("quantity",contact.quantity.toString());
-            map.put("key",contact.key.toString());
-            map.put("timeStamp",contact.timeStamp);
-            map.put("rating",contact.rating);
-            map.put("noOfRatings",contact.noOfRatings);
-            //map.put("address",contact.clickable);
+        Map<String,Object> map= new HashMap<>();
+        map.put("address",contact.address.toString());
+        map.put("category",contact.category.toString());
+        map.put("description",contact.description.toString());
+        map.put("name",contact.name.toString());
+        map.put("phone",contact.phone.toString());
+        //map.put("address",contact.img);
+        map.put("quantity",contact.quantity.toString());
+        map.put("key",contact.key.toString());
+        map.put("timeStamp",contact.timeStamp);
+        map.put("rating",contact.rating);
+        map.put("noOfRatings",contact.noOfRatings);
+        //map.put("address",contact.clickable);
 
 
 
-            return databaseReference.child(contact.key.toString()).setValue(map);
+        return databaseReference.child(contact.key.toString()).setValue(map);
 
     }
 
@@ -61,7 +61,7 @@ public class backend {
     public backend(String uphno,String Ratings){
         this.uphno=uphno;
         FirebaseDatabase dbu= FirebaseDatabase.getInstance();
-        databaseReferenceRat = dbu.getReference(Ratings.class.getSimpleName());
+        databaseReferenceRat = dbu.getReference("Ratings");
     }
     public Task<Void> addRat(String otherUsrphno,float rating){
         Map<String,Object> map= new HashMap<>();
